@@ -16,4 +16,14 @@ East Riding of Yorkshire Council,
 North East Lincolnshire Council and 
 North Lincolnshire Council.
 
+This app requires PHP 5.3>
 
+*More setup details to go here later*
+
+````shell
+php artisan cache:clear
+composer dump-autoload
+php artisan migrate --seed  //set up database and seed
+````
+
+Goto `http://<server name>/candidates`
