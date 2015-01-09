@@ -1,7 +1,12 @@
 <?php
-
+	
 	namespace JennisonAdam\tools;
-
+	
+	//emulates (PHP 5 >= 5.3.0, PECL intl >= 1.0.0) NumberFormatter class
+	// for servers that don't have PECL intl >= 1.0.0 installed
+	// copied from http://stackoverflow.com/questions/3109978/php-display-number-with-ordinal-suffix
+	
+	
 	Class NumberFormatter
 	{
 
