@@ -19,3 +19,12 @@ Route::get('/', function()
 
 
 Route::resource('candidates','CandidatesController');
+
+Route::get('/pollingstations', function()
+{
+	$pollingstations = Pollingstation::all();
+	return View::make('pages.pollingstations',array(
+			'pollingstations' 	=> $pollingstations,
+			'page_title'		=> 'Polling Stations'			
+	));	
+});

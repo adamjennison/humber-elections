@@ -57,9 +57,4 @@
 
 @stop
  
-@section('sidebar')
-  @parent
-   
-  <a href="#">Section specific links</a>
-@stop
 
