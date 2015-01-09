@@ -1,0 +1,297 @@
+body
+{
+  background-color: #fff;
+  color: #555;
+  font-family: Helvetica, Arial, sans-serif;
+  font-size: 100%;
+  width: 100%;
+  line-height: 1.5em;
+  margin: 0;
+  padding: 0;
+}
+
+.warning {
+  padding: 10px 15px;
+  background-color: beige;
+  margin: 25px 0;
+}
+
+p
+{
+  font-size: 110%;
+}
+
+input
+{
+  font-size: 130%;
+  background-color: #fff;
+}
+
+input.postcode
+{
+  text-transform: uppercase;
+}
+
+#main
+{
+  width: 920px;
+  margin: 50px auto;
+}
+
+tr.footer {
+  border-top: 2px solid #777;
+  border-bottom: 0px solid black;
+}
+
+tr.header {
+  border-bottom: 2px solid #777;
+}
+
+
+#footer
+{
+  font-size: 100%;
+  background-color: #555;
+  color: #fff;
+  text-align: left;
+  margin: 40px 0 0 0;
+  height: 100%;
+}
+
+#footer_inner {
+  margin: 0 auto;
+  padding: 30px 0;
+  width: 930px;
+}
+
+#footer h1 {
+  font-size: 180%;
+  color: #fff;
+}
+
+a
+{
+  background-color: #dce9b0;
+  padding: 1px 4px;
+  color: #111;
+  text-decoration: none;
+}
+
+a:visited
+{
+  background-color: #eee;
+  padding: 1px 4px;
+  color: #111;
+  text-decoration: none;
+}
+
+a:hover
+{
+  background-color: #4f4f4f;
+  color:  #fff;
+}
+
+/*
+Show icon for external links
+https://stackoverflow.com/questions/18168286/how-can-i-style-external-links-like-wikipedia
+*/
+/*a[href^="//"]:after, 
+a[href^="http://"]:after, 
+a[href^="https://"]:after {
+  content: url(/external-link.png);
+  margin: 0 0 0 5px;
+}
+*/
+h1
+{
+  margin-top: 20px;
+  line-height: 1.4em;
+  font-weight: bold;
+  color: #86a11d;
+}
+
+h2
+{
+  margin-top: 40px;
+  line-height: 1.5em;
+  font-weight: bold;
+  color: #86a11d;
+}
+
+h3
+{
+  margin: 30px 0 10px 0;
+  line-height: 1.5em;
+  font-weight: bold;
+  color: #86a11d;
+}
+
+
+form
+{
+  font-size: 150%;
+}
+
+.candidate_name
+{
+  font-size: 150%;
+  font-weight: bold;
+}
+
+.candidate_party
+{
+  color: #999;
+}
+
+.highlight
+{
+  background-color: #fff7c0;
+}
+
+strong
+{
+  color: #000;
+}
+
+table
+{
+  border-collapse: collapse;
+}
+
+td, th
+{
+  padding: 6px;
+}
+
+th {
+  font-weight: normal;
+}
+
+tr
+{
+  border-bottom: 1px solid #eee;
+}
+
+.right
+{
+  text-align: right;
+}
+
+.elected
+{
+  background-color: #777;
+  color: white;
+  padding: 2px 5px;
+  font-weight: normal;
+  text-transform: uppercase;
+}
+
+.noborder
+{
+  border: 0;
+}
+
+#lookup {
+  background-color: beige;
+  padding: 10px 25px;
+}
+
+#notice {
+  background-color: green;
+  color: white;
+  padding: 10px 20px;
+}
+
+#error {
+  background-color: red;
+  color: white;
+  padding: 10px 20px;
+}
+
+/* Wardmap */
+
+.wardmap tr, .wardmap td.blank
+{
+  border: 0;
+}
+
+.wardmap td
+{
+  border: 1px solid #fff;
+  width: 16%;
+  height: 80px;
+  padding: 10px;
+  text-align: center;
+  font-size: 90%;
+}
+
+.ld3 a, .ld3 a:visited, .ld2 a, .ld2 a:visited
+{
+  background-color: orange;
+  color: white;
+  padding: 3px;
+  line-height: 1.5em;
+  width: 70%;
+}
+
+.ld1 a, .ld1 a:visited, .con3 a, .con3 a:visited
+{
+  background-color: blue;
+  color: white;
+  padding: 3px;
+  line-height: 1.5em;
+  width: 70%;
+}
+
+
+.wardmap a:hover
+{
+  background-color: black;
+  color: white;
+  padding: 3px;
+  line-height: 1.5em;
+  width: 70%;
+}
+
+
+
+.ld3
+{
+  background-color: orange;
+  color: white;
+}
+
+.ld2
+{
+  background-color: orange;
+  background-image: url('ld2.png');
+  color: white;
+}
+
+.ld1
+{
+  background-color: blue;
+  background-image: url('ld1.png');
+  color: white;
+}
+
+.con3
+{
+  background-color: blue;
+  color: white;
+}
+
+.letter_index a {
+  margin: 0 10px 0 0;
+}
+
+#candidate_bio img {
+  float: left;
+  margin: 0 15px 15px 0;
+}
+
+#polling_station {
+  background-color: beige;
+  border: 1px solid green;
+  padding: 20px 20px;
+}
