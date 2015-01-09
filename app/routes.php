@@ -28,3 +28,30 @@ Route::get('/pollingstations', function()
 			'page_title'		=> 'Polling Stations'			
 	));	
 });
+
+Route::get('/bodies', function()
+{
+	$bodies = Body::all();
+	return View::make('pages.bodies',array(
+			'bodies' 	=> $bodies,
+			'page_title'		=> 'Government Bodies'			
+	));	
+});
+
+Route::get('/bodies/{bodyslug}', function($bodyslug)
+{
+		$body 		= Body::where('slug', '=', $bodyslug)->firstOrFail();
+		$elections	= $body->elections;
+		$districts	= $body->districts;
+		
+		
+	return View::make('pages.body',array(
+		'body' => $body,
+		'elections' => $elections,
+		'districts' => $districts,
+		'page_title'=> $body->name
+	
+	));
+
+});
+
