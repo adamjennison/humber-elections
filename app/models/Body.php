@@ -16,4 +16,7 @@ class Body extends Eloquent {
 		return $this->hasMany('District');
 	}
 	
+	public function electionsForThisBody(){
+		
+	}
 }
