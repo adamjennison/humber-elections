@@ -7,7 +7,7 @@
 @section('content')
     <div class="nav">
         <p>
-            {{ HTML::link('bodies/{$body->slug}', '&laquo; '.$body->name ) }}
+            {{ HTML::link('bodies/'.$body->slug, '&laquo; '.$body->name ) }}
         </p>
         <?php $eftb=$elections_for_this_body->toArray() ?>
 
@@ -46,14 +46,14 @@
 	      ?>
 	       @unless ($election_index == 0)
 	        <?php $previous_election = $eftb[$election_index - 1] ?>
-	        {{ HTML::link( '/bodies/{$body->slug}','&laquo;'.$previous_election['kind'].'&nbsp;'.$previous_election['d'],array('title'=>'Previous '.$body->name.' Election') ) }}
+	        {{ HTML::link( '/bodies/'.$body->slug,'&laquo;'.$previous_election['kind'].'&nbsp;'.$previous_election['d'],array('title'=>'Previous '.$body->name.' Election') ) }}
 
 
 	        &nbsp;&nbsp;&nbsp;
 	      @endunless
 	      @unless ($election_index == count($eftb)-1)
 	        <?php $next_election = $eftb[$election_index + 1] ?>
-	        {{ HTML::link( '/bodies/{$body->slug}',$next_election['kind'].'&nbsp;'.$next_election['d'].'&raquo;',array('title'=>'Next '.$body->name.' Election') ) }}
+	        {{ HTML::link( '/bodies/'.$body->slug,$next_election['kind'].'&nbsp;'.$next_election['d'].'&raquo;',array('title'=>'Next '.$body->name.' Election') ) }}
 
 	      @endunless
 	    </p>
