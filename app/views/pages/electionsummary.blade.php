@@ -11,8 +11,14 @@
         </p>
     </div>
 
-  <h1>{{ $page_title }}</h1>
 
+    @if( count($elections_for_this_body > 1))
+        <p>
+            <?php // $election_index = $elections_for_this_body($election);
+             
+    
+        </p>
+    @endif
  
 
   <h1>{{ $body->name }} {{ $election->kind }}<br/>{{  date('d M Y', strtotime($election->d)) }}</h1>
