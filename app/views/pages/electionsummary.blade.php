@@ -7,173 +7,253 @@
 @section('content')
     <div class="nav">
         <p>
-            {{ HTML::link('bodies/{$body->slug}', '&laquo; '.$body->slug ) }}
+            {{ HTML::link('bodies/{$body->slug}', '&laquo; '.$body->name ) }}
         </p>
-    </div>
+        <?php $eftb=$elections_for_this_body->toArray() ?>
+
+	  @if (count($eftb) > 1)
+	    <p>
+	      <?php
+	      function itsHere($searchIn, $searchFor){
+	      	$count=0;
+	      //	echo 'searching for: '.$searchFor->id;
+	      //	echo '<br/><br/>';
+	      	foreach($searchIn as $election){
+	      		if( $election['id']  == $searchFor->id){
+	      			return $count;
+	      			//echo '<br/>FOUND IT at this index:'.$count.'<br/>';
+	      		}
+	      		/*echo 'count='.$count.'<br/>';
+	      		var_dump($election);
+	      		echo '<br/><br/>';
+	      		echo $election['id'];
+	      		echo '<br/><br/><hr/>';
+				*/
+	      		$count++;
+	      	}
+	      	return -1;
+	      }
 
 
-    @if( count($elections_for_this_body > 1))
-        <p>
-            <?php // $election_index = $elections_for_this_body($election);
-             
-    
-        </p>
-    @endif
- 
 
-  <h1>{{ $body->name }} {{ $election->kind }}<br/>{{  date('d M Y', strtotime($election->d)) }}</h1>
-  = @election.body.name
-  = @election.kind
-  %br
-  = long_date(@election.d)
+	      $election_index = itsHere($eftb, $election) ?>
 
-    
-  - if @elections_for_this_body.size > 1
-    %p
-      - @election_index = @elections_for_this_body.index(@election)
-      
-      - unless @election_index == 0
-        - @previous_election = @elections_for_this_body[@election_index - 1]
-        %a{ :href => "/bodies/#{@election.body.slug}/elections/#{@previous_election.d}", :title => "Previous #{@election.body.name} election" }<
-          &laquo;
-          = @previous_election.kind
-          &nbsp;
-          = short_date(@previous_election.d)
-        &nbsp;&nbsp;&nbsp;
-    
-      - unless @election_index == @elections_for_this_body.size - 1
-        - @next_election = @elections_for_this_body[@election_index + 1]
-        %a{ :href => "/bodies/#{@election.body.slug}/elections/#{@next_election.d}", :title => "Next #{@election.body.name} election" }<
-          = @next_election.kind 
-          &nbsp;
-          = short_date(@next_election.d)
-          &raquo;
+	      <?php 
 
-%h1
-  = @election.body.name
-  = @election.kind
-  %br
-  = long_date(@election.d)
+	      //echo 'Election index='.$election_index.'<br/>';
 
--# Does this election have any recorded votes, i.e. has it been held?
-- @election_held = Candidacy.sum(:votes, :election => @election)
+	      //die();
+	      ?>
+	       @unless ($election_index == 0)
+	        <?php $previous_election = $eftb[$election_index - 1] ?>
+	        {{ HTML::link( '/bodies/{$body->slug}','&laquo;'.$previous_election['kind'].'&nbsp;'.$previous_election['d'],array('title'=>'Previous '.$body->name.' Election') ) }}
 
-- unless @election_held
-  .warning
+
+	        &nbsp;&nbsp;&nbsp;
+	      @endunless
+	      @unless ($election_index == count($eftb)-1)
+	        <?php $next_election = $eftb[$election_index + 1] ?>
+	        {{ HTML::link( '/bodies/{$body->slug}',$next_election['kind'].'&nbsp;'.$next_election['d'].'&raquo;',array('title'=>'Next '.$body->name.' Election') ) }}
+
+	      @endunless
+	    </p>
+	  @endif
+	</div>
+	
+<h1>
+  {{ $election->name }}
+  {{ $election->kind }}
+  <br/>
+  {{ $election->d }}
+</h1>
+
+<!-- # Does this election have any recorded votes, i.e. has it been held? -->
+
+@unless ($electionHeld)
+  <div class="warning">
     We don't have the results for this election yet.
+  </div>
+@endunless
+<p>
+  {{ $election->reason }}
+</p>
 
-%p= @election.reason
 
-%p
-  = @election.candidacies.count
-  = "candidate".pluralize(@election.candidacies.count)
-  - if @election_held
+<p>
+  <%= @election.candidacies.count %>
+  <%= "candidate".pluralize(@election.candidacies.count) %>
+  <% if @election_held %>
     contested
-  - else 
+  <% else  %>
     will be contesting
-  -# We can't calculate the number of seats being contested if the election hasn't been held
-  - if @election_held
-    = @total_seats
-    = "seat".pluralize(@total_seats)
+  <% end %>
+  <% # We can't calculate the number of seats being contested if the election hasn't been held %>
+  <% if @election_held %>
+    <%= @total_seats %>
+    <%= "seat".pluralize(@total_seats) %>
     in
-  = @total_districts
-  = @election.body.district_name.pluralize(@total_districts)
+  <% end %>
+  <%= @total_districts %>
+  <%= @election.body.district_name.pluralize(@total_districts) %>
   in Sutton.
-
-- if @election_held
-
-  %h2 Seats, votes and candidates by party
-
-  %table
-    %tr.header
-      %th &nbsp;
-      %th &nbsp;
-      %th.highlight seats won
-      %th votes
-      %th % seats
-      %th % votes
-      %th votes per seat
-      %th candidates
-      %th votes per candidate
-      -#
-        %th relative popularity
-        - @max_votes_per_candidate = @results_by_party.first.votez.to_f / @results_by_party.first.cands.to_f # We really need to scan the array for the max value
-    - @results_by_party.each do |row|
-      %tr
-        %td{ :style => "background-color: #{row.colour}" } &nbsp;
-        %td.data_party= row.name
-        %td.data_seats.right.highlight= row.seatz
-        %td.data_votes.right= commify(row.votez)
-        - if @election_held
-          %td.right= format_percent(row.seatz.to_f / @total_seats * 100)
-          %td.right= format_percent(row.votez.to_f / @total_votes * 100)
-          %td.data_votes_per_seat.right
-            - if row.seatz > 0
-              = commify(row.votez / row.seatz)
-            - else
+</p>
+<!--
+<% if @election_held %>
+  <h2>Seats, votes and candidates by party</h2>
+  <table>
+    <tr class="header">
+      <th>&nbsp;</th>
+      <th>&nbsp;</th>
+      <th class="highlight">seats won</th>
+      <th>votes</th>
+      <th>% seats</th>
+      <th>% votes</th>
+      <th>votes per seat</th>
+      <th>candidates</th>
+      <th>votes per candidate</th>
+      <% # %>
+        <th>relative popularity</th>
+        <% @max_votes_per_candidate = @results_by_party.first.votez.to_f / @results_by_party.first.cands.to_f # We really need to scan the array for the max value %>
+      <% end %>
+    </tr>
+    <% @results_by_party.each do |row| %>
+      <tr>
+        <td style="background-color: <%= row.colour %>">&nbsp;</td>
+        <td class="data_party">
+          <%= row.name %>
+        </td>
+        <td class="data_seats right highlight">
+          <%= row.seatz %>
+        </td>
+        <td class="data_votes right">
+          <%= commify(row.votez) %>
+        </td>
+        <% if @election_held %>
+          <td class="right">
+            <%= format_percent(row.seatz.to_f / @total_seats * 100) %>
+          </td>
+          <td class="right">
+            <%= format_percent(row.votez.to_f / @total_votes * 100) %>
+          </td>
+          <td class="data_votes_per_seat right">
+            <% if row.seatz > 0 %>
+              <%= commify(row.votez / row.seatz) %>
+            <% else %>
               &mdash;
-        %td.data_candidates.right= row.cands
-        - if @election_held
-          %td.right= commify(row.votez / row.cands)
-        -#
-          %td.right= format_percent( ( row.votez.to_f / row.cands.to_f ) / @max_votes_per_candidate * 100)
-
-
-    %tr.footer
-      %td &nbsp;
-      %td &nbsp;
-      %td.right.highlight= @total_seats
-      %td.right= commify(@total_votes)
-      %td &nbsp;
-      %td &nbsp;
-      %td &nbsp;
-      %td &nbsp;
-      %td &nbsp;
-
-  - if @election.ballot_papers_issued
-    %table
-      %tr
-        %td Electorate
-        %td.right= commify(@election.electorate)
-      %tr
-        %td Ballot papers issued
-        %td.right= commify(@election.ballot_papers_issued)
-      %tr
-        %td Turnout
-        %td.right= sprintf("%.0f%%", @election.ballot_papers_issued / @election.electorate.to_f * 100)
-        
-  %h2
-    = @election.body.district_name.capitalize.pluralize(2)
+            <% end %>
+          </td>
+        <% end %>
+        <td class="data_candidates right">
+          <%= row.cands %>
+        </td>
+        <% if @election_held %>
+          <td class="right">
+            <%= commify(row.votez / row.cands) %>
+          </td>
+        <% end %>
+        <% # %>
+          <td class="right">
+            <%= format_percent( ( row.votez.to_f / row.cands.to_f ) / @max_votes_per_candidate * 100) %>
+          </td>
+        <% end %>
+      </tr>
+    <% end %>
+    <tr class="footer">
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td class="right highlight">
+        <%= @total_seats %>
+      </td>
+      <td class="right">
+        <%= commify(@total_votes) %>
+      </td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+    </tr>
+  </table>
+  <% if @election.ballot_papers_issued %>
+    <table>
+      <tr>
+        <td>Electorate</td>
+        <td class="right">
+          <%= commify(@election.electorate) %>
+        </td>
+      </tr>
+      <tr>
+        <td>Ballot papers issued</td>
+        <td class="right">
+          <%= commify(@election.ballot_papers_issued) %>
+        </td>
+      </tr>
+      <tr>
+        <td>Turnout</td>
+        <td class="right">
+          <%= sprintf("%.0f%%", @election.ballot_papers_issued / @election.electorate.to_f * 100) %>
+        </td>
+      </tr>
+    </table>
+  <% end %>
+  <h2>
+    <%= @election.body.district_name.capitalize.pluralize(2) %>
     contested in this election
-
-  %table
-    %tr.header
-      %th &nbsp;
-      %th seats
-      %th candidates
-      %th votes
-    - @results_by_district.each do |row|
-      %tr
-        %td
-          %a{ :href => "/bodies/#{@election.body.slug}/elections/#{@election.d}/#{@election.body.districts_name}/#{row.district_slug}"}
-            = row.name
-        %td.right= row.seats
-        %td.right= row.num_candidates
-        %td.right= commify(row.votez)
-    %tr.footer
-      %td &nbsp;
-      %td.right= @total_seats
-      %td.right= @election.candidacies.count
-      %td.right= commify(@total_votes)
-- else
-  %h2
-    = @election.body.district_name.capitalize.pluralize(2)
+  </h2>
+  <table>
+    <tr class="header">
+      <th>&nbsp;</th>
+      <th>seats</th>
+      <th>candidates</th>
+      <th>votes</th>
+    </tr>
+    <% @results_by_district.each do |row| %>
+      <tr>
+        <td>
+          <a href="/bodies/<%= @election.body.slug %>/elections/<%= @election.d %>/<%= @election.body.districts_name %>/<%= row.district_slug %>">
+            <%= row.name %>
+          </a>
+        </td>
+        <td class="right">
+          <%= row.seats %>
+        </td>
+        <td class="right">
+          <%= row.num_candidates %>
+        </td>
+        <td class="right">
+          <%= commify(row.votez) %>
+        </td>
+      </tr>
+    <% end %>
+    <tr class="footer">
+      <td>&nbsp;</td>
+      <td class="right">
+        <%= @total_seats %>
+      </td>
+      <td class="right">
+        <%= @election.candidacies.count %>
+      </td>
+      <td class="right">
+        <%= commify(@total_votes) %>
+      </td>
+    </tr>
+  </table>
+<% else %>
+  <h2>
+    <%= @election.body.district_name.capitalize.pluralize(2) %>
     being contested at this election
-  %table
-    - @districts_in_this_election.each do |d|
-      %tr
-        %td
-          %a{ :href => "/bodies/#{@election.body.slug}/#{@election.body.districts_name}/#{d['slug']}"}
-            = d['name']
-
+  </h2>
+  <table>
+    <% @districts_in_this_election.each do |d| %>
+      <tr>
+        <td>
+          <a href="/bodies/<%= @election.body.slug %>/<%= @election.body.districts_name %>/<%= d['slug'] %>">
+            <%= d['name'] %>
+          </a>
+        </td>
+      </tr>
+    <% end %>
+  </table>
+<% end %>
+-->
 @stop
