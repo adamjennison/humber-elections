@@ -40,8 +40,8 @@
 
 	      <?php 
 
-	      //echo 'Election index='.$election_index.'<br/>';
-
+	      echo 'Election index='.$election_index.'<br/>';
+        var_dump($eftb);
 	      //die();
 	      ?>
 	       @unless ($election_index == 0)
@@ -80,25 +80,24 @@
 
 
 <p>
-  <%= @election.candidacies.count %>
-  <%= "candidate".pluralize(@election.candidacies.count) %>
-  <% if @election_held %>
+  {{ $candidacies->count() }} {{ \JennisonAdam\tools\NumberFormatter::pluralize($candidacies->count(),'candidate') }}
+  @if( $electionHeld )
     contested
-  <% else  %>
+  @else
     will be contesting
-  <% end %>
-  <% # We can't calculate the number of seats being contested if the election hasn't been held %>
-  <% if @election_held %>
-    <%= @total_seats %>
-    <%= "seat".pluralize(@total_seats) %>
+  @endif
+  <!--<% # We can't calculate the number of seats being contested if the election hasn't been held %>-->
+  @if(@electionHeld )
+    {{ $total_seats }}
+    {{ \JennisonAdam\tools\NumberFormatter::pluralize($total_seats,'seat') }}
     in
-  <% end %>
-  <%= @total_districts %>
-  <%= @election.body.district_name.pluralize(@total_districts) %>
+  @endif
+  {{ $total_districts }}
+  {{ \JennisonAdam\tools\NumberFormatter::pluralize($body->district_name,$body->district_name) }}
   in Sutton.
 </p>
-<!--
-<% if @election_held %>
+
+ @if($electionHeld)
   <h2>Seats, votes and candidates by party</h2>
   <table>
     <tr class="header">
@@ -111,9 +110,8 @@
       <th>votes per seat</th>
       <th>candidates</th>
       <th>votes per candidate</th>
-      <% # %>
-        <th>relative popularity</th>
-        <% @max_votes_per_candidate = @results_by_party.first.votez.to_f / @results_by_party.first.cands.to_f # We really need to scan the array for the max value %>
+      <th>relative popularity</th>
+        <?php //$max_votes_per_candidate = results_by_party.first.votez.to_f / @results_by_party.first.cands.to_f # We really need to scan the array for the max value ?>
       <% end %>
     </tr>
     <% @results_by_party.each do |row| %>
@@ -174,6 +172,9 @@
       <td>&nbsp;</td>
     </tr>
   </table>
+
+
+
   <% if @election.ballot_papers_issued %>
     <table>
       <tr>
@@ -238,7 +239,7 @@
       </td>
     </tr>
   </table>
-<% else %>
+@else
   <h2>
     <%= @election.body.district_name.capitalize.pluralize(2) %>
     being contested at this election
@@ -254,6 +255,6 @@
       </tr>
     <% end %>
   </table>
-<% end %>
--->
+@endif
+<!---->
 @stop

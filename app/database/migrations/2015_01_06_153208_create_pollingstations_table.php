@@ -10,6 +10,10 @@ class CreatePollingstationsTable extends Migration {
 	 *
 	 * @return void
 	 */
+
+
+	// Reference	Area_code	GSS_Code	Districts	One Line Address	Latitude	Longitude	Easting	Northing	Address 1	Address 2	Address 3	City	County	Postcode
+
 	public function up()
 	{
 		//
@@ -19,6 +23,8 @@ class CreatePollingstationsTable extends Migration {
 			//auto increment id
 			$t->increments('id');
 
+			$t->string('area_code');
+			$t->string('gss_code');
 			$t->string('name');
 			$t->string('address');
 			$t->string('postcode_id');

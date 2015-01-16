@@ -9,7 +9,8 @@
 
 	},
 	"require-dev":{
-		"fzaninotto/faker":"dev-master"
+		"fzaninotto/faker":"dev-master",
+		"orangehill/iseed": "dev-master"
 	},
 	"autoload": {
 		"classmap": [

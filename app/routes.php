@@ -26,6 +26,7 @@ Route::get('/bodies/{bodyslug}/elections/{d}', function($bodyslug,$d){
 	$elections_for_this_body	=	Election::orderBy('d')->where('body_id','=',$body->id)->get();
 	$total_seats				=	Candidacy::where('election_id','=',$election->id)->sum('seats');
 	$total_votes				=	Candidacy::where('election_id','=',$election->id)->sum('votes');
+	$candidacies				=	$election->candidacies;
 	
 	# There's got to be a better way to do this, either with SQL or Datamapper
   
@@ -86,6 +87,7 @@ Route::get('/bodies/{bodyslug}/elections/{d}', function($bodyslug,$d){
 			'results_by_district'		=>	$results_by_district,
 			'results_by_party'			=>	$results_by_party,
 			'total_districts'			=>	$total_districts,
+			'candidacies'				=>	$candidacies,
 			'page_title'				=> 	$body->name.' '.$election->kind.' '.$election->d		
 	));	
 });

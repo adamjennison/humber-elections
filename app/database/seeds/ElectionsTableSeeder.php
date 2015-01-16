@@ -11,11 +11,15 @@ class ElectionsTableSeeder extends Seeder {
 		{
 			Election::create(array(
 				'd'						=> $faker->date($format = 'Y-m-d', $max = 'now'),
-				'reason'				=> $faker->realText($maxNbChars = 200, $indexSize = 2),
-				'kind'					=> $faker->realText($maxNbChars = 40, $indexSize = 2),
-				'body_id'				=> $faker->numberBetween($min=1,$max=20)
+				'reason'				=> $faker->realText($maxNbChars = 50, $indexSize = 2),
+				'kind'					=> 'Full Council',
+				'body_id'				=> $faker->numberBetween($min=1,$max=5)
 			));
 
 		}
+
+
+
+
 	}
 }		
