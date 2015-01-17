@@ -40,20 +40,20 @@
 
 	      <?php 
 
-	      echo 'Election index='.$election_index.'<br/>';
-        var_dump($eftb);
+	      //echo 'Election index='.$election_index.'<br/>';
+        //var_dump($eftb);
 	      //die();
 	      ?>
 	       @unless ($election_index == 0)
 	        <?php $previous_election = $eftb[$election_index - 1] ?>
-	        {{ HTML::link( '/bodies/'.$body->slug,'&laquo;'.$previous_election['kind'].'&nbsp;'.$previous_election['d'],array('title'=>'Previous '.$body->name.' Election') ) }}
+	        {{ HTML::link( '/bodies/'.$body->slug.'/elections/'.$previous_election['d'],'&laquo;'.$previous_election['kind'].'&nbsp;'.$previous_election['d'],array('title'=>'Previous '.$body->name.' Election') ) }}
 
 
 	        &nbsp;&nbsp;&nbsp;
 	      @endunless
 	      @unless ($election_index == count($eftb)-1)
 	        <?php $next_election = $eftb[$election_index + 1] ?>
-	        {{ HTML::link( '/bodies/'.$body->slug,$next_election['kind'].'&nbsp;'.$next_election['d'].'&raquo;',array('title'=>'Next '.$body->name.' Election') ) }}
+	        {{ HTML::link( '/bodies/'.$body->slug.'/elections/'.$next_election['d'],$next_election['kind'].'&nbsp;'.$next_election['d'].'&raquo;',array('title'=>'Next '.$body->name.' Election') ) }}
 
 	      @endunless
 	    </p>
@@ -111,60 +111,62 @@
       <th>candidates</th>
       <th>votes per candidate</th>
       <th>relative popularity</th>
-        <?php //$max_votes_per_candidate = results_by_party.first.votez.to_f / @results_by_party.first.cands.to_f # We really need to scan the array for the max value ?>
-      <% end %>
+        <?php $max_votes_per_candidate = floatval($results_by_party[0]->votez) / floatval($results_by_party[0]->cands) # We really need to scan the array for the max value ?>
+      
     </tr>
-    <% @results_by_party.each do |row| %>
+    @foreach($results_by_party as $row)
       <tr>
-        <td style="background-color: <%= row.colour %>">&nbsp;</td>
+        <td style="background-color: {{ $row->colour }}">&nbsp;</td>
         <td class="data_party">
-          <%= row.name %>
+          {{ $row->name }}
         </td>
         <td class="data_seats right highlight">
-          <%= row.seatz %>
+          {{ $row->seatz }}
         </td>
         <td class="data_votes right">
-          <%= commify(row.votez) %>
+          {{ $row->votez }}
         </td>
-        <% if @election_held %>
+        @if($electionHeld)
           <td class="right">
-            <%= format_percent(row.seatz.to_f / @total_seats * 100) %>
+            <?php echo sprintf("%.2f%%", ( floatval($row->seatz) / $total_seats * 100)) ?>
           </td>
           <td class="right">
-            <%= format_percent(row.votez.to_f / @total_votes * 100) %>
+            <?php echo sprintf("%.2f%%", ( floatval($row->votez) / $total_votes * 100)) ?>
           </td>
           <td class="data_votes_per_seat right">
-            <% if row.seatz > 0 %>
-              <%= commify(row.votez / row.seatz) %>
-            <% else %>
+            @if($row->seatz > 0 )
+              {{ $row->votez / $row->seatz }}
+            @else
               &mdash;
-            <% end %>
+            @endif
           </td>
-        <% end %>
+        @endif
         <td class="data_candidates right">
-          <%= row.cands %>
+          {{ $row->cands }}
         </td>
-        <% if @election_held %>
+        @if ( $electionHeld )
           <td class="right">
-            <%= commify(row.votez / row.cands) %>
+            {{ $row->votez / $row->cands }}
           </td>
-        <% end %>
-        <% # %>
+        @endif
+
           <td class="right">
-            <%= format_percent( ( row.votez.to_f / row.cands.to_f ) / @max_votes_per_candidate * 100) %>
+          
+           <?php echo sprintf("%.2f%%", ( floatval($row->votez) / floatval($row->cands) ) / $max_votes_per_candidate * 100) ?>
           </td>
-        <% end %>
+        
       </tr>
-    <% end %>
+    @endforeach
     <tr class="footer">
       <td>&nbsp;</td>
       <td>&nbsp;</td>
       <td class="right highlight">
-        <%= @total_seats %>
+        {{ $total_seats }}
       </td>
       <td class="right">
-        <%= commify(@total_votes) %>
+        {{ $total_votes }}
       </td>
+      <td>&nbsp;</td>
       <td>&nbsp;</td>
       <td>&nbsp;</td>
       <td>&nbsp;</td>
@@ -175,30 +177,30 @@
 
 
 
-  <% if @election.ballot_papers_issued %>
+  @if($election->ballot_papers_issued )
     <table>
       <tr>
         <td>Electorate</td>
         <td class="right">
-          <%= commify(@election.electorate) %>
+          {{ $election->electorate }}
         </td>
       </tr>
       <tr>
         <td>Ballot papers issued</td>
         <td class="right">
-          <%= commify(@election.ballot_papers_issued) %>
+          {{ $election->ballot_papers_issued }}
         </td>
       </tr>
       <tr>
         <td>Turnout</td>
         <td class="right">
-          <%= sprintf("%.0f%%", @election.ballot_papers_issued / @election.electorate.to_f * 100) %>
+          <?php sprintf("%.0f%%", $election->ballot_papers_issued / $election->electorate.to_f * 100) ?>
         </td>
       </tr>
     </table>
-  <% end %>
+  @endif
   <h2>
-    <%= @election.body.district_name.capitalize.pluralize(2) %>
+    {{ $body->district_name }}
     contested in this election
   </h2>
   <table>
@@ -208,34 +210,34 @@
       <th>candidates</th>
       <th>votes</th>
     </tr>
-    <% @results_by_district.each do |row| %>
+    @foreach( $results_by_district as $row )
       <tr>
         <td>
-          <a href="/bodies/<%= @election.body.slug %>/elections/<%= @election.d %>/<%= @election.body.districts_name %>/<%= row.district_slug %>">
-            <%= row.name %>
+          <a href="/bodies/{{ $body->slug }}/elections/{{ $election->d }}/{{ $body->districts_name }}/{{ $row->district_slug }}">
+            {{ $row->name }}
           </a>
         </td>
         <td class="right">
-          <%= row.seats %>
+          {{ $row->seats }}
         </td>
         <td class="right">
-          <%= row.num_candidates %>
+          {{ $row->num_candidates }}
         </td>
         <td class="right">
-          <%= commify(row.votez) %>
+          {{ $row->votez }}
         </td>
       </tr>
-    <% end %>
+    @endforeach
     <tr class="footer">
       <td>&nbsp;</td>
       <td class="right">
-        <%= @total_seats %>
+        {{ $total_seats }}
       </td>
       <td class="right">
-        <%= @election.candidacies.count %>
+        {{ $election->candidacies->count() }}
       </td>
       <td class="right">
-        <%= commify(@total_votes) %>
+        {{ $total_votes }}
       </td>
     </tr>
   </table>
