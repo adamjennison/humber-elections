@@ -28,4 +28,7 @@ class Election extends Eloquent {
 		return $this->hasMany('Campaign');
 	}
 
+    public function districts(){
+        return $this->hasManyThrough('District','Candidacy');
+    }
 }

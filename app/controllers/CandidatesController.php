@@ -49,7 +49,7 @@ class CandidatesController extends \BaseController {
 		//
 		$candidate = Candidate::find($id);
 
-		$candidacies = $candidate->candidacies();
+		$candidacies = $candidate->getAllDetails();
 		
 		
 		return View::make('pages.candidate', array(

@@ -25,5 +25,6 @@ class Candidacy extends Eloquent {
 		return $this->belongsTo('District');
 	}
 
+    
 
 }

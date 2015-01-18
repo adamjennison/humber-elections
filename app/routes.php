@@ -135,6 +135,77 @@ Route::get('/bodies/{bodyslug}', function($bodyslug)
 		'page_title'=> $body->name
 	
 	));
+    
+    
 
 });
+
+
+
+Route::get('/bodies/{body_slug}/{districts_name}/{district_slug}', function($body_slug,$districts_name,$district_slug)
+{
+
+	$district 	=	District::where('slug','=',$district_slug)->firstOrFail();
+	$body		=	Body::where('slug','=',$body_slug)->firstOrFail();
+	return View::make('pages.district',array(
+		'district'	=>	$district,
+		'body'		=>	$body,
+		'page_title'	=>	'page title'
+    ));
+});
+
+
+
+Route::get('/bodies/{body_slug}/elections/{d}/{districts_name}/{district}', function($body_slug,$d,$districts_name,$district)
+{
+    
+    $district 	                =	District::where('slug','=',$district)->firstOrFail();
+	$body		                =	Body::where('slug','=',$body_slug)->firstOrFail();
+    $election                   =   Election::where('body_id','=',$body->id)->where('d','=',$d)->firstOrFail();
+    $candidacies                =   Candidacy::where('district_id','=',$district->id)->where('election_id','=',$election->id)->orderBy('votes','DESC')->get();
+    $total_votes                =   Candidacy::where('district_id','=',$district->id)->where('election_id','=',$election->id)->sum('votes');
+    $total_candidates           =   Candidacy::where('district_id','=',$district->id)->where('election_id','=',$election->id)->count();
+    $total_seats                =   Candidacy::where('district_id','=',$district->id)->where('election_id','=',$election->id)->sum('seats');
+    $districts_in_this_election =   $election->districts();
+   // var_dump($districts_in_this_election);
+    $poll                       =   Poll::where('district_id','=',$district->id)->where('election_id','=',$election->id)->get();
+
+    $results_by_party = DB::select("
+        SELECT 
+          p.name AS party_name,
+          p.colour AS party_colour,
+          COUNT(c.id) AS num_candidates,
+          SUM(c.seats) AS num_seats,
+          SUM(c.votes) AS total_votes
+        FROM candidacies c
+        
+        LEFT JOIN parties p
+        ON c.party_id = p.id
+        
+        WHERE c.district_id = ?
+        AND c.election_id = ?
+        
+        GROUP BY p.name, p.colour
+        
+        ORDER BY total_votes DESC
+      ",  array( $district->id, $election->id));
+  
+    $page_title =   $district->name.' '.$body->district_name.' results, '.$body->name.' election '.$election->d;
+  
+     return View::make('pages.resultsdistrict', array(
+        'district'	                    =>	$district,
+		'body'		                    =>	$body,
+		'page_title'	                =>	$page_title,
+        'election'                      =>  $election,         
+        'candidacies'                   =>  $candidacies,     
+        'total_votes'                   =>  $total_votes,      
+        'total_candidates'              =>  $total_candidates,     
+        'total_seats'                   =>  $total_seats,
+        'districts_in_this_election'    =>  $districts_in_this_election,
+        'poll'                          =>  $poll,
+        'results_by_party'              =>  $results_by_party
+        
+     ));
+});
+
 

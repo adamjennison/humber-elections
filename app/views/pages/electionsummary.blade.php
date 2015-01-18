@@ -16,19 +16,12 @@
 	      <?php
 	      function itsHere($searchIn, $searchFor){
 	      	$count=0;
-	      //	echo 'searching for: '.$searchFor->id;
-	      //	echo '<br/><br/>';
+	      
 	      	foreach($searchIn as $election){
 	      		if( $election['id']  == $searchFor->id){
 	      			return $count;
-	      			//echo '<br/>FOUND IT at this index:'.$count.'<br/>';
 	      		}
-	      		/*echo 'count='.$count.'<br/>';
-	      		var_dump($election);
-	      		echo '<br/><br/>';
-	      		echo $election['id'];
-	      		echo '<br/><br/><hr/>';
-				*/
+	      		
 	      		$count++;
 	      	}
 	      	return -1;
@@ -213,8 +206,8 @@
     @foreach( $results_by_district as $row )
       <tr>
         <td>
-          <a href="/bodies/{{ $body->slug }}/elections/{{ $election->d }}/{{ $body->districts_name }}/{{ $row->district_slug }}">
-            {{ $row->name }}
+          {{ HTML::link('bodies/'.$body->slug.'/elections/'.$election->d.'/'.$body->districts_name.'/'.$row->district_slug,$row->name) }}
+          
           </a>
         </td>
         <td class="right">
@@ -250,7 +243,7 @@
     <% @districts_in_this_election.each do |d| %>
       <tr>
         <td>
-          <a href="/bodies/<%= @election.body.slug %>/<%= @election.body.districts_name %>/<%= d['slug'] %>">
+          <a href="bodies/<%= @election.body.slug %>/<%= @election.body.districts_name %>/<%= d['slug'] %>">
             <%= d['name'] %>
           </a>
         </td>

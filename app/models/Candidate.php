@@ -17,7 +17,7 @@ class Candidate extends Eloquent {
 	 *
 	 * @return Response
 	 */
-	public function candidacies(){
+	public function getAllDetails(){
 
 
 		$results= DB::select(
@@ -55,4 +55,8 @@ class Candidate extends Eloquent {
 		return $results;
 
 	}
+    
+    public function candidacies(){
+            return $this->hasMany('Candidacy');
+    }
 }
