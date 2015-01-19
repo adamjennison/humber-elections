@@ -145,13 +145,19 @@ Route::get('/bodies/{bodyslug}', function($bodyslug)
 Route::get('/bodies/{body_slug}/{districts_name}/{district_slug}', function($body_slug,$districts_name,$district_slug)
 {
 
-	$district 	=	District::where('slug','=',$district_slug)->firstOrFail();
-	$body		=	Body::where('slug','=',$body_slug)->firstOrFail();
+	$district 	  =	District::where('slug','=',$district_slug)->firstOrFail();
+	$body		      =	Body::where('slug','=',$body_slug)->firstOrFail();
+  $elections    = $district->body->elections;
+
+  $page_title   = $district->name.' '. $district->body->district_name.' '.$district->body->name;
+  //dd($elections);
 	return View::make('pages.district',array(
 		'district'	=>	$district,
 		'body'		=>	$body,
-		'page_title'	=>	'page title'
+		'page_title'	=>	$page_title,
+    'elections' =>  $elections
     ));
+
 });
 
 
@@ -167,9 +173,15 @@ Route::get('/bodies/{body_slug}/elections/{d}/{districts_name}/{district}', func
     $total_candidates           =   Candidacy::where('district_id','=',$district->id)->where('election_id','=',$election->id)->count();
     $total_seats                =   Candidacy::where('district_id','=',$district->id)->where('election_id','=',$election->id)->sum('seats');
     $districts_in_this_election =   $election->districts();
-   // var_dump($districts_in_this_election);
-    $poll                       =   Poll::where('district_id','=',$district->id)->where('election_id','=',$election->id)->get();
-
+    $election_held 				= 	(int) DB::table('candidacies')->where('district_id','=',$district->id)->where('election_id','=',$election->id)->sum('votes');
+    //echo count($districts_in_this_election);
+    //var_dump($election_held);
+    $poll                       =   Poll::where('district_id','=',$district->id)->where('election_id','=',$election->id)->first();
+  /* 
+    echo 'district id='.$district->id.'<br/>';
+    echo 'election id='.$election->id.'<br/>';
+    var_dump($poll);
+*/
     $results_by_party = DB::select("
         SELECT 
           p.name AS party_name,
@@ -203,7 +215,8 @@ Route::get('/bodies/{body_slug}/elections/{d}/{districts_name}/{district}', func
         'total_seats'                   =>  $total_seats,
         'districts_in_this_election'    =>  $districts_in_this_election,
         'poll'                          =>  $poll,
-        'results_by_party'              =>  $results_by_party
+        'results_by_party'              =>  $results_by_party,
+        'election_held'					=>	$election_held
         
      ));
 });

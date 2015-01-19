@@ -6,31 +6,29 @@
 
 @section('content')
 
-    <% @page_title = "#{@district.name} #{@district.body.district_name}, #{@district.body.name}" %>
     <div class="nav">
       <p>
-        <a href="/bodies/{{ $body->slug }}">
-          &laquo;&nbsp;
-          {{ $district->body->name }}
-        </a>
+        {{ HTML::link('/bodies/'. $body->slug ,'&laquo;&nbsp;'.$district->body->name) }}
       </p>
     </div>
     <h1>
-      <%= "#{@district.name} #{@district.body.district_name}" %>
+      {{ $district->name }} {{ $district->body->district_name }}
     </h1>
+
+    {{--
+
+    @foreach($elections as $election)
+
     <% # Candidates for 22 May 2014 council election %>
     <% @election = Election.get(8) %>
     <h2>
-      <%= @district.name %>
+      {{ $district->name }}
       ward candidates for the
-      <a href="/bodies/<%= @election.body.slug %>/elections/<%= @election.d %>">
-        <%= @election.body.name %>
-        election on
-        <%= long_date(@election.d) %>
-      </a>
+      {{ HTML::link('/bodies/'.$election->body->slug.'/elections/'.$election->d,$election->body->name.' election on '. $election->d) }}
     </h2>
     <table>
       <% Candidacy.all(:election => @election, :district => @district, :order => [:party_id]).each do |c| %>
+      @foreach ()
         <% campaign = Campaign.first(:party => c.party, :election => @election) %>
         <tr class="vcard">
           <td style="background-color: <%= c.party.colour %>">&nbsp;</td>
@@ -60,21 +58,30 @@
         </tr>
       <% end %>
     </table>
+
+    @endforeach
     <% # TODO % turnout plotted over time %>
     <% # TODO map of district shown within Sutton boundary %>
+  --}}
     <h2>
-      Candidates elected previously in
-      <%= @district.name %>
-      <%= @district.body.district_name %>
+      Candidates elected previously in {{ $district->name }} {{ $district->body->district_name }}
     </h2>
-    <% Election.all(:body => @district.body, :order => [:d.desc]).each do |election| %>
-      <% ccys = Candidacy.all(:election_id => election.id, :district_id => @district.id, :seats => 1, :order => [:votes.desc]) %>
-      <% unless ccys == []   %>
+
+    @foreach($body->elections->sortByDesc('d') as $election)
+   
+
+
+      <?php $ccys = Candidacy::where('election_id','=', $election->id)->where( 'district_id','=', $district->id)->where('seats','>=','1')->orderBy('votes','DESC')->get();
+     // echo 'election_id:'.$election->id.'<br/>'.'district_id:'.$district->id.'<br/>';
+     // dd(DB::getQueryLog());
+       ?>
+
+
+      @unless ( false )
         <h3>
-          <a href="/bodies/<%= @district.body.slug %>/elections/<%= election.d %>/<%= election.body.districts_name %>/<%= @district.slug %>">
-            <%= long_date election.d %>
-            <%= election.kind %>
-          </a>
+
+        {{ HTML::link('/bodies/'. $district->body->slug .'/elections/'. $election->d .'/'. $election->body->districts_name .'/'. $district->slug,$election->d .' '.$election->kind) }}
+
         </h3>
         <table>
           <tr>
@@ -83,23 +90,23 @@
             <th></th>
             <th></th>
           </tr>
-          <% ccys.each do |ccy| %>
+          
+          @foreach($ccys as $ccy)
             <tr>
               <td>
-                <%= ccy.position %>
+                {{ $ccy->position }}
+                <?php //var_dump($ccy) ?>
               </td>
-              <td style="background-color: <%= ccy.party.colour %>">&nbsp;</td>
+              <td style="background-color: {{ $ccy->party->colour }}">&nbsp;</td>
               <td>
-                <a href="/candidates/<%= ccy.candidate.id %>">
-                  <%= ccy.candidate.short_name %>
-                </a>
+              {{ HTML::link('/candidates/'.$ccy->candidate->id,$ccy->candidate->short_name())   }}
               </td>
               <td>
-                <%= ccy.party.name %>
+                {{ $ccy->party->name }}
               </td>
             </tr>
-          <% end %>
+          @endforeach
         </table>
-      <% end %>
-    <% end %>
+      @endunless
+    @endforeach
 @stop

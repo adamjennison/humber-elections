@@ -4,7 +4,7 @@
 		<p>{{ HTML::Link('/','Home') }}</p>
 		<p>{{ HTML::Link('/bodies','Bodies') }}</p>
 		<p>{{ HTML::Link('/candidates','Candidates') }}</p>
-		<p>{{ HTML::Link('/polling-stations','') }}</p>
+		<p>{{ HTML::Link('/pollingstations','Polling Stations') }}</p>
 		<p>{{ HTML::Link('/','Home') }}</p>
 		<p>{{ HTML::Link('/','Home') }}</p>
 		<p>{{ HTML::Link('/about','About this website') }}</p>

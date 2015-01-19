@@ -59,4 +59,11 @@ class Candidate extends Eloquent {
     public function candidacies(){
             return $this->hasMany('Candidacy');
     }
+
+
+    public function short_name(){
+
+    	$first_name = explode(' ', $this->forenames);
+    	return $first_name[0].' '.$this->surname;
+    }
 }

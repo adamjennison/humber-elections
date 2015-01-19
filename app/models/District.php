@@ -25,4 +25,8 @@ class District extends Eloquent {
 	}
 
 
+    public function elections(){
+        return $this->hasManyThrough('Election','Body');
+    }
+
 }
