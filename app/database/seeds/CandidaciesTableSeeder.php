@@ -3,7 +3,7 @@
 class CandidaciesTableSeeder extends Seeder {
 
 	public function run(){
-
+		/*
 
 		$faker = Faker\Factory::create('en_GB');
 
@@ -26,5 +26,7 @@ class CandidaciesTableSeeder extends Seeder {
 
 			));
 		}
+
+		*/
 	}
 }		

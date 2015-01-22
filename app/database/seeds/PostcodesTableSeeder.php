@@ -5,7 +5,6 @@ class PostcodesTableSeeder extends Seeder {
 	public function run(){
 
 
-
 		$faker = Faker\Factory::create('en_GB');
 
 		foreach(range(1,200) as $index)
@@ -20,6 +19,5 @@ class PostcodesTableSeeder extends Seeder {
 			));
 
 		}
-        
 	}
 }		

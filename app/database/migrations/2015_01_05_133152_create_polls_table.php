@@ -21,6 +21,7 @@ class CreatePollsTable extends Migration {
 
 			$t->integer('electorate');
 			$t->integer('ballot_papers_issued');
+			$t->integer('ballot_papers_rejected');
 			$t->integer('seats');
 
 			$t->integer('election_id')->unsigned()->index('polls_elections_id_foreign');

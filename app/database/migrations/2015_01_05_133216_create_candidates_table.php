@@ -21,8 +21,7 @@ class CreateCandidatesTable extends Migration {
 
 			$t->string('forenames');
 			$t->string('surname')->index('surname_index');
-			$t->string('sex');
-            $t->string('yournextmp_id');
+			$t->string('gender')->nullable();
 
 
 			//created_at, updated_at DATETIME

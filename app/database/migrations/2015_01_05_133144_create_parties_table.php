@@ -5,6 +5,10 @@ use Illuminate\Database\Migrations\Migration;
 
 class CreatePartiesTable extends Migration {
 
+
+	protected $fillable = array('name');
+
+
 	/**
 	 * Run the migrations.
 	 *
@@ -20,7 +24,7 @@ class CreatePartiesTable extends Migration {
 			$t->increments('id');
 
 			$t->string('name');
-			$t->string('colour');
+			$t->string('colour')->nullable();
 
 			//created_at, updated_at DATETIME
 			$t->timestamps();

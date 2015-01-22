@@ -13,7 +13,7 @@ class AddFkToTables extends Migration {
 	public function up()
 	{
 		// Polls FKs
-
+/*
 		Schema::table('districts', function($t)
 	    {
 	        $t->foreign('body_id')
@@ -32,7 +32,7 @@ class AddFkToTables extends Migration {
 	                ->references('id')
 	                ->on('elections');
 	    });
-/*
+
 		Schema::table('postcodes', function($t)
 	    {
 	        $t->foreign('pollingstation_id')
@@ -43,7 +43,7 @@ class AddFkToTables extends Migration {
 	                ->references('id')
 	                ->on('districts');
 	    });
-*/
+
 
 		Schema::table('candidacies', function($t)
 	    {
@@ -85,7 +85,7 @@ class AddFkToTables extends Migration {
 	    });
 
 
-
+*/
 	}
 
 	/**

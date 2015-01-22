@@ -5,6 +5,7 @@
 @stop
 
 @section('content')
+
     <div class="nav">
         <p>
             {{ HTML::link('bodies/'.$body->slug, '&laquo; '.$body->name ) }}
@@ -103,7 +104,7 @@
       <th>votes per seat</th>
       <th>candidates</th>
       <th>votes per candidate</th>
-      <th>relative popularity</th>
+      {{--<th>relative popularity</th>--}}
         <?php $max_votes_per_candidate = floatval($results_by_party[0]->votez) / floatval($results_by_party[0]->cands) # We really need to scan the array for the max value ?>
       
     </tr>
@@ -128,7 +129,7 @@
           </td>
           <td class="data_votes_per_seat right">
             @if($row->seatz > 0 )
-              {{ $row->votez / $row->seatz }}
+              {{ round($row->votez / $row->seatz) }}
             @else
               &mdash;
             @endif
@@ -139,14 +140,14 @@
         </td>
         @if ( $electionHeld )
           <td class="right">
-            {{ $row->votez / $row->cands }}
+            {{ round($row->votez / $row->cands) }}
           </td>
         @endif
 
-          <td class="right">
+          {{--<td class="right">
           
            <?php echo sprintf("%.2f%%", ( floatval($row->votez) / floatval($row->cands) ) / $max_votes_per_candidate * 100) ?>
-          </td>
+          </td>--}}
         
       </tr>
     @endforeach
@@ -164,7 +165,7 @@
       <td>&nbsp;</td>
       <td>&nbsp;</td>
       <td>&nbsp;</td>
-      <td>&nbsp;</td>
+      {{--<td>&nbsp;</td>--}}
     </tr>
   </table>
 
@@ -236,19 +237,19 @@
   </table>
 @else
   <h2>
-    <%= @election.body.district_name.capitalize.pluralize(2) %>
+    {{ \JennisonAdam\tools\NumberFormatter::pluralize($election->body->district_name,$election->body->district_name) }}
     being contested at this election
   </h2>
   <table>
-    <% @districts_in_this_election.each do |d| %>
+    @foreach($districts_in_this_election as $aDistrict)
       <tr>
         <td>
-          <a href="bodies/<%= @election.body.slug %>/<%= @election.body.districts_name %>/<%= d['slug'] %>">
-            <%= d['name'] %>
+        {{ HTML::link('bodies/'.$election->body->slug.'/'.$election->body->districts_name.'/'.$aDistrict->slug,$aDistrict->name) }}
+
           </a>
         </td>
       </tr>
-    <% end %>
+    @endforeach
   </table>
 @endif
 <!---->

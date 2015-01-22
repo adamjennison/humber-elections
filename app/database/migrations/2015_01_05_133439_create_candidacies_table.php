@@ -24,6 +24,7 @@ class CreateCandidaciesTable extends Migration {
 			$t->integer('votes');
 			$t->integer('position');
 			$t->integer('seats');
+			$t->boolean('elected');
 			//$t->boolean('labcoop')->default(false); // 
 
 			$t->integer('election_id')->unsigned()->index('candidacies_election_id_foreign');

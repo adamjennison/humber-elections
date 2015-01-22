@@ -19,19 +19,15 @@ class CreatePostcodesTable extends Migration {
 			//auto increment id
 			$t->string('postcode');
 			$t->integer('positional_quality_indicator');
-			$t->integer('easting');
-			$t->integer('northing');
-            $t->string('gridref');
+			$t->integer('eastings');
+			$t->integer('northings');
 			$t->string('country_code');
 			$t->string('nhs_regional_ha_code');
 			$t->string('admin_county_code');
 			$t->string('admin_district_code');
 			$t->string('admin_ward_code');
 			$t->string('nha_ha_code');
-            $t->string('ward_name');
-            $t->date('introduced');
-            $t->date('terminated');
-            
+
 			$t->decimal('lat',18,12);
 			$t->decimal('lng',18,12);
 			$t->integer('seats');

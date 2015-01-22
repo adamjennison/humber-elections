@@ -10,7 +10,9 @@
 	},
 	"require-dev":{
 		"fzaninotto/faker":"dev-master",
-		"orangehill/iseed": "dev-master"
+		"orangehill/iseed": "dev-master",
+		"jwage/easy-csv":"*"
+
 	},
 	"autoload": {
 		"classmap": [

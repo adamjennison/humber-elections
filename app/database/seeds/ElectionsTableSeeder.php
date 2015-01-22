@@ -4,7 +4,7 @@ class ElectionsTableSeeder extends Seeder {
 
 	public function run(){
 
-
+		/*
 		$faker = Faker\Factory::create('en_GB');
 
 		foreach(range(1,20) as $index)
@@ -18,7 +18,15 @@ class ElectionsTableSeeder extends Seeder {
 
 		}
 
+		*/
 
+		Election::create(array(
+			'd'			=> 	'2014-05-01',
+			'reason'	=>	'Reason for election',
+			'kind'		=>	'Full Council Election',
+			'body_id'	=>	1
+
+		));
 
 
 	}

@@ -100,7 +100,7 @@
         </td>
         @if ($candidacy->seats == 1 )
           <td class="elected">
-            <%= "Elected" %>
+            Elected
           </td>
         @else 
           <td>&nbsp;</td>
