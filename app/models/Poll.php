@@ -9,7 +9,7 @@ class Poll extends Eloquent {
 	protected $table = 'polls';
 
 	public function turnout_percent(){
-	  return floatval($this->ballot_papers_issued) / floatval($this->electorate) * 100;
+	  return floatval($this->ballot_papers_issued + $this->ballot_papers_rejected) / floatval($this->electorate) * 100;
 
 	 }
 

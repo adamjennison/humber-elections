@@ -177,11 +177,11 @@ Route::get('/bodies/{body_slug}/elections/{d}/{districts_name}/{district}', func
     //echo count($districts_in_this_election);
     //var_dump($election_held);
     $poll                       =   Poll::where('district_id','=',$district->id)->where('election_id','=',$election->id)->first();
-  /* 
-    echo 'district id='.$district->id.'<br/>';
-    echo 'election id='.$election->id.'<br/>';
-    var_dump($poll);
-*/
+   
+   // echo 'district id='.$district->id.'<br/>';
+    //echo 'election id='.$election->id.'<br/>';
+    //dd($poll);
+
     $results_by_party = DB::select("
         SELECT 
           p.name AS party_name,

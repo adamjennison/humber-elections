@@ -208,6 +208,12 @@
       </td>
     </tr>
     <tr>
+      <td>Ballot papers rejected</td>
+      <td class="right">
+        {{ $poll->ballot_papers_rejected }}
+      </td>
+    </tr>    
+    <tr>
       <td>Electorate</td>
       <td class="right">
        {{ $poll->electorate }}

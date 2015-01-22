@@ -6,19 +6,21 @@ use Symfony\Component\Console\Input\InputArgument;
 
 class LoadPollResults extends Command {
 
+// CSV format: ward*,electorate*,ballot papers issued*,ballot papers rejected*,seats*   *required
+
 	/**
 	 * The console command name.
 	 *
 	 * @var string
 	 */
-	protected $name = 'command:name';
+	protected $name = 'load:pollresults';
 
 	/**
 	 * The console command description.
 	 *
 	 * @var string
 	 */
-	protected $description = 'Command description.';
+	protected $description = 'This command loads a csv into the poll results table.';
 
 	/**
 	 * Create a new command instance.
@@ -73,46 +75,32 @@ class LoadPollResults extends Command {
 
 		$reader = new \EasyCSV\Reader($this->file_path.$this->argument('filename'),'r+',$this->headers);
 
-		$this->line('Welcome to the load candidate command.');
+		$this->line('Welcome to the load poll results command.');
 		$this->info('We will be loading this file: '.$this->file_path.$this->argument('filename'));
 		if(!$this->headers){
 			$this->info('You have stated that there are no headers in this CSV');
 			$this->info('The headers are: '.$this->line($reader->getHeaders()));
 		}
-		$faker = Faker\Factory::create('en_GB');
+		
 
-		//$this->line($reader->getHeaders());
-		//var_dump(Body::all());
+		
 		while ($row = $reader->getRow()) {
-			$this->line('Searching for a candidate');
-			$candidate 	=  	Candidate::firstOrCreate(array(
-						'surname' 		=> 	trim($row['surname']),
-						'forenames'		=>	trim($row['forenames'])						
-						));
-			$this->line('Found: '.$candidate->id);
-			$this->line('Searching for a party: '.$row['party']);
-
-			$party		=	Party::firstOrCreate(array(
-						'name'			=>	$row['party'],
-				));
-
-
-
-			$this->line('Searching for a district'.$row['district']);
-
-			$district	= 	District::where('name','=',$row['district'])->firstOrFail();
-
-			$election 	=	Election::findOrFail($this->argument('election'));
-			$candidacy	=	new Candidacy();
-
-			$candidacy->election_id 	= 	$this->argument('election');
-			$candidacy->candidate_id	=	$candidate->id;
-			$candidacy->party_id		=	$party->id;
-			$candidacy->district_id		=	$district->id;
-
-			$candidacy->save();
-
-			$this->line('Created a candidacy for '.$candidate->forenames.' '.$candidate->surname.' who is standing in the '.$election->name.' for the '.$party->name.' in the '.$district->name.' ward.');
+		
+            $this->line('Searching for a district'.$row['district']);
+            $district	= 	District::where('name','=',$row['district'])->firstOrFail();
+            
+            $poll = Poll::create(array(
+                'electorate'                =>  $row['electorate'],
+                'ballot_papers_issued'      =>  $row['ballot_papers_issued'],
+                'ballot_papers_rejected'    =>  $row['ballot_papers_rejected'],
+                'seats'                     =>  $row['seats'],
+                'district_id'               =>  $district->id,
+                'election_id'               =>  $this->argument('election'),
+            ));       
+            $poll->save();
+            $this->line('Created a new poll result');
+                        
+                        
         }
 	}
 
