@@ -24,7 +24,11 @@ class Candidacy extends Eloquent {
 	public function district(){
 		return $this->belongsTo('District');
 	}
-
+    
+    public function fromDistrict($election_id){
+        
+        
+    }
     
 
 }
