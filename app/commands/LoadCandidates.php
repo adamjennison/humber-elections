@@ -60,7 +60,8 @@ class LoadCandidates extends Command {
 	{
 		
 		
-
+        // remove the checks on the db
+		Eloquent::unguard();
 
 		if($this->option('has_headers')==='false' || $this->option('has_headers')==='f'){
 			$this->headers=false;
@@ -82,14 +83,29 @@ class LoadCandidates extends Command {
 
 		//$this->line($reader->getHeaders());
 		//var_dump(Body::all());
+       
 		while ($row = $reader->getRow()) {
-
-			$candidate = new Candidate();
-			$candidate->surname		=	trim( $row['surname']  	);
-			$candidate->forenames	=	trim( $row['forenames']	);
-			$firstname=explode(' ',$candidate->forenames);
-			$json = json_decode(file_get_contents('http://api.genderize.io?name='.urlencode($firstname[0])), true);
-			$candidate->gender 		=	$json['gender'];
+             $firstname=explode(' ',trim($row['forenames']));
+            // try to find a candidate using just first name and last - proably no good for john smith!
+            $candidate  = Candidate::where('surname',trim($row['surname']))->where('forenames','LIKE',$firstname[0].'%')->first();
+            
+            if($candidate){
+                
+            }else{
+                // no candidate found so create one and save it in the same variable
+                // I can't use firstOrCreate as I can't figure out how to select using a 'like'
+                // which i need to use as a person may or may not have many first names
+                // and Councils arn't very choosy with their data - sometimes they have all the names
+                // sometimes they don't!
+            
+                $candidate = 	new Candidate();
+                $candidate->surname = 	trim($row['surname']);
+            }
+            
+			$candidate->forenames = trim($row['forenames']); //just in case 
+			//$firstname=explode(' ',$candidate->forenames);
+			//$json = json_decode(file_get_contents('http://api.genderize.io?name='.urlencode($firstname[0])), true);
+			//$candidate->gender 		=	$json['gender'];
 			$candidate->save();
 
 			$this->info('Created a new '.$candidate->gender.' candidate caled '.$candidate->forenames.' '.$candidate->surname);
