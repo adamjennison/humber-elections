@@ -56,8 +56,35 @@ class SetPositions extends Command {
             exit;
         }
         $this->line($election->candidacies->count().' candidates in this election');
+
         foreach($election->body->districts as $district){
-           // $cands  =   Candidacy::where('district_id',
+        	$this->line('--------------------------------------------------------');
+        	$this->line($district->name);
+          	$candacies  =   Candidacy::where('district_id',$district->id)->where('election_id',$election->id)->orderBy('votes','DESC')->get();
+          	$this->line('number of candidates: '.$candacies->count());
+        	// itterate through the districts candidates
+        	$pos = 1;
+
+        	foreach($candacies as $candidacy) {
+        		
+        		$seats=null;
+
+        		if($pos<=$district->seats){
+        			$seats = 1;
+        		}else{
+        			$seats = 0;
+        		}
+
+        		$this->line('Name:'.$candidacy->candidate->forenames.' '.$candidacy->candidate->surname);
+        		$this->line('Votes:'.$candidacy->votes.' Position:'.$pos.' Seats:'.$seats);
+        		
+				$candidacy->position 	=	$pos;
+				$candidacy->seats 		=	$seats;
+				$candidacy->save();
+
+				$pos++;
+
+        	}
         }
         
 	}
@@ -72,7 +99,7 @@ class SetPositions extends Command {
 	protected function getArguments()
 	{
 		return array(
-			array('election', InputArgument::REQUIRED, 'Election id'),
+			array('election', InputArgument::REQUIRED, 'Election date in yyyy-mm-dd format'),
 		);
 	}
 
