@@ -88,7 +88,7 @@
   @endif
   {{ $total_districts }}
   {{ \JennisonAdam\tools\NumberFormatter::pluralize($body->district_name,$body->district_name) }}
-  in Sutton.
+  in {{ $election->body->name }}.
 </p>
 
  @if($electionHeld)

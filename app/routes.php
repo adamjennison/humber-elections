@@ -13,7 +13,11 @@
 
 Route::get('/', function()
 {
-	return View::make('hello');
+        $elections  = Election::all();
+		return View::make('pages.index',array(
+			'elections' 	=> $elections,
+			'page_title'	=> 'Humber Elections'			
+	));	
 });
 
 
