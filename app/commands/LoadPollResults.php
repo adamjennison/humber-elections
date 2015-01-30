@@ -88,14 +88,14 @@ class LoadPollResults extends Command {
 		
             $this->line('Searching for a district'.$row['district']);
             $district	= 	District::where('name','=',$row['district'])->firstOrFail();
-            
+            $election 	=	Election::where('d','=',$this->argument('election'))->firstOrFail();
             $poll = Poll::create(array(
                 'electorate'                =>  $row['electorate'],
                 'ballot_papers_issued'      =>  $row['ballot_papers_issued'],
                 'ballot_papers_rejected'    =>  $row['ballot_papers_rejected'],
                 'seats'                     =>  $row['seats'],
                 'district_id'               =>  $district->id,
-                'election_id'               =>  $this->argument('election'),
+                'election_id'               =>  $election->id,
             ));       
             $poll->save();
             $this->line('Created a new poll result');

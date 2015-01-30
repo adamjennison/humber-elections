@@ -27,6 +27,14 @@ class ElectionsTableSeeder extends Seeder {
 			'body_id'	=>	1
 
 		));
+        
+		Election::create(array(
+			'd'			=> 	'2012-05-03',
+			'reason'	=>	'Reason for election',
+			'kind'		=>	'Full Council Election',
+			'body_id'	=>	1
+
+		));        
 
 
 	}

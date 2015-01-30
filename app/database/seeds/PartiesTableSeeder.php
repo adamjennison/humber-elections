@@ -6,7 +6,7 @@ class PartiesTableSeeder extends Seeder {
 
 
 		$faker = Faker\Factory::create();
-
+    /*
 		foreach(range(1,20) as $index)
 		{
 
@@ -18,5 +18,7 @@ class PartiesTableSeeder extends Seeder {
 
 			));
 		}
+   
+   */     
 	}
 }		

@@ -109,11 +109,12 @@ class LoadResults extends Command {
 			$this->line('Searching for a district'.$row['district']);
 
 			$district	= 	District::where('name','=',$row['district'])->firstOrFail();
-
-			$election 	=	Election::findOrFail($this->argument('election'));
+            
+            //dd($this->argument('election'));
+			$election 	=	Election::where('d','=',$this->argument('election'))->firstOrFail();
 
 			$candidacy 	= 	Candidacy::firstOrCreate(array(
-					'election_id'	=>	$this->argument('election'),
+					'election_id'	=>	$election->id,
 					'candidate_id'	=>	$candidate->id,
 					'party_id'		=>	$party->id,
 					'district_id'	=>	$district->id,
@@ -139,7 +140,7 @@ class LoadResults extends Command {
 	{
 		return array(
 			array('filename', InputArgument::REQUIRED, 'Filename of the csv'),
-			array('election', InputArgument::REQUIRED, 'Election id'),
+			array('election', InputArgument::REQUIRED, 'Election date (yyyy-mm-dd)'),
 		);
 	}
 

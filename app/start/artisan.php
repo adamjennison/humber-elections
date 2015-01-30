@@ -16,3 +16,4 @@ Artisan::add(new LoadResults);
 Artisan::add(new LoadCandidacies);
 Artisan::add(new LoadPollResults);
 Artisan::add(new SetPositions);
+Artisan::add(new MergeCandidates);

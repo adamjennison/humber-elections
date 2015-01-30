@@ -117,10 +117,10 @@ class LoadCandidacies extends Command {
 
 			$district	= 	District::where('name','=',$row['district'])->firstOrFail();
 
-			$election 	=	Election::findOrFail($this->argument('election'));
+			$election 	=	Election::where('d','=',$this->argument('election'))->firstOrFail();
 			$candidacy	=	new Candidacy();
 
-			$candidacy->election_id 	= 	$this->argument('election');
+			$candidacy->election_id 	= 	$election->id;
 			$candidacy->candidate_id	=	$candidate->id;
 			$candidacy->party_id		=	$party->id;
 			$candidacy->district_id		=	$district->id;
