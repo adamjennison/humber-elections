@@ -71,7 +71,7 @@ tr.header {
 
 a
 {
-  background-color: #dce9b0;
+  background-color: #b4c9d6;
   padding: 1px 4px;
   color: #111;
   text-decoration: none;
@@ -79,7 +79,7 @@ a
 
 a:visited
 {
-  background-color: #eee;
+  background-color: #e5e9ea;
   padding: 1px 4px;
   color: #111;
   text-decoration: none;
@@ -95,19 +95,19 @@ a:hover
 Show icon for external links
 https://stackoverflow.com/questions/18168286/how-can-i-style-external-links-like-wikipedia
 */
-/*a[href^="//"]:after, 
+a[href^="//"]:after, 
 a[href^="http://"]:after, 
 a[href^="https://"]:after {
-  content: url(/external-link.png);
+  content: url(external-link.png);
   margin: 0 0 0 5px;
 }
-*/
+
 h1
 {
   margin-top: 20px;
   line-height: 1.4em;
   font-weight: bold;
-  color: #86a11d;
+  color: #447898;
 }
 
 h2
@@ -115,7 +115,7 @@ h2
   margin-top: 40px;
   line-height: 1.5em;
   font-weight: bold;
-  color: #86a11d;
+  color: #447898;
 }
 
 h3
@@ -123,7 +123,7 @@ h3
   margin: 30px 0 10px 0;
   line-height: 1.5em;
   font-weight: bold;
-  color: #86a11d;
+  color: #447898;
 }
 
 

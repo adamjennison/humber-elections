@@ -11,7 +11,8 @@
 	"require-dev":{
 		"fzaninotto/faker":"dev-master",
 		"orangehill/iseed": "dev-master",
-		"jwage/easy-csv":"*"
+		"jwage/easy-csv":"*",
+		"frozennode/administrator": "dev-master"
 
 	},
 	"autoload": {

@@ -108,6 +108,7 @@ return array(
 		'Illuminate\Workbench\WorkbenchServiceProvider',
 		'Barryvdh\Debugbar\ServiceProvider',
 		'Orangehill\Iseed\IseedServiceProvider',
+        'Frozennode\Administrator\AdministratorServiceProvider',
 
 	),
 

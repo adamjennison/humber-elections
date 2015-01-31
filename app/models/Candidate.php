@@ -59,7 +59,14 @@ class Candidate extends Eloquent {
     public function candidacies(){
             return $this->hasMany('Candidacy');
     }
-
+    
+    public function getFullNameAttribute(){
+        
+        
+        return  $this->forenames.' '.$this->surname;
+        
+        
+    }
 
     public function short_name(){
 
