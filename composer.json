@@ -12,7 +12,8 @@
 		"fzaninotto/faker":"dev-master",
 		"orangehill/iseed": "dev-master",
 		"jwage/easy-csv":"*",
-		"frozennode/administrator": "dev-master"
+		"frozennode/administrator": "dev-master",
+		"jacopo/laravel-authentication-acl": "1.2.*"
 
 	},
 	"autoload": {

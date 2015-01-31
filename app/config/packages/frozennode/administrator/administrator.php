@@ -7,7 +7,7 @@ return array(
 	 *
 	 * @type string
 	 */
-	'uri' => 'admin',
+	'uri' => 'electionsadmin',
 
 	/**
 	 * Page title
@@ -61,8 +61,11 @@ return array(
 	 */
 	'permission'=> function()
 	{
-		//return Auth::check();
-        return true;
+        //return Auth::check();
+        
+        $authentication = \App::make('authentication_helper');
+        return $authentication->hasPermission(array('_superadmin'));
+       // return true;
 	},
 
 	/**
@@ -99,7 +102,7 @@ return array(
 	 *
 	 * @type string
 	 */
-	'login_path' => 'user/login',
+	'login_path' => 'login',
 
 	/**
 	 * The logout path is the path where Administrator will send the user when they click the logout link

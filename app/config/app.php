@@ -109,6 +109,7 @@ return array(
 		'Barryvdh\Debugbar\ServiceProvider',
 		'Orangehill\Iseed\IseedServiceProvider',
         'Frozennode\Administrator\AdministratorServiceProvider',
+        'Jacopo\Authentication\AuthenticationServiceProvider',
 
 	),
 
