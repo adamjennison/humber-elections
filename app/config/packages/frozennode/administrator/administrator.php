@@ -1,5 +1,5 @@
 <?php
-//Config::set('laravel-debugbar::config.enabled', false);
+Config::set('laravel-debugbar::config.enabled', false);
 return array(
 
 	/**
@@ -51,7 +51,7 @@ return array(
 	 * 		'Analytics' => array('E-Commerce' => 'page.ecommerce.analytics'),
 	 *	)
 	 */
-	'menu' => array('parties','bodies','candidates','candidacies','elections','polls','pollingstations'),
+	'menu' => array('parties','bodies','candidates','candidacies','elections','polls'),
 
 	/**
 	 * The permission option is the highest-level authentication check that lets you define a closure that should return true if the current user
@@ -102,7 +102,7 @@ return array(
 	 *
 	 * @type string
 	 */
-	'login_path' => 'login',
+	'login_path' => 'admin/login',
 
 	/**
 	 * The logout path is the path where Administrator will send the user when they click the logout link

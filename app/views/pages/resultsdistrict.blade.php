@@ -87,7 +87,8 @@
       </td>
       <td class="org">
         {{-- <%= party_name(candidacy.labcoop, candidacy.party.name) %> --}}
-        {{ $candidacy->party->name }}
+        {{ HTML::link('/party/'.$candidacy->party->name,$candidacy->party->name) }}
+        
       </td>
       @if( $election_held )
         <td class="right">
@@ -145,7 +146,7 @@
         </td>
         <td style="background-color: {{ $row->party_colour }} ">&nbsp;</td>
         <td>
-           {{ $row->party_name }}
+           {{ HTML::link('/party/'.$row->party_name ,$row->party_name )  }}
         </td>
         @if( $election_held )
           <td class="right highlight">

@@ -102,7 +102,7 @@
               {{ HTML::link('/candidates/'.$ccy->candidate->id,$ccy->candidate->short_name())   }}
               </td>
               <td>
-                {{ $ccy->party->name }}
+                {{ HTML::link('/party/'.$ccy->party->name ,$ccy->party->name) }}
               </td>
             </tr>
           @endforeach

@@ -1,5 +1,5 @@
 <?php
-
+Config::set('laravel-debugbar::config.enabled', false);
 /*
 |--------------------------------------------------------------------------
 | Application Routes

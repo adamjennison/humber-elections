@@ -112,7 +112,7 @@
       <tr>
         <td style="background-color: {{ $row->colour }}">&nbsp;</td>
         <td class="data_party">
-          {{ $row->name }}
+         {{ HTML::link('/party/'.$row->name , $row->name )  }}
         </td>
         <td class="data_seats right highlight">
           {{ $row->seatz }}
