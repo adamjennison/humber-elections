@@ -16,6 +16,7 @@ return [
                     "link"        => URL::route('dashboard.default'),
                     "permissions" => []
             ],
+                    
             [
                 /*
                  * the name of the link: you will see it in the admin menu panel.

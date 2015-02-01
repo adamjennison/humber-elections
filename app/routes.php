@@ -144,7 +144,24 @@ Route::get('/bodies/{bodyslug}', function($bodyslug)
 
 });
 
+Route::get('/parties', function()
+{
+	$parties = Party::all();
+	return View::make('pages.parties',array(
+			'parties' 	=> $parties,
+			'page_title'		=> 'Political Parties'			
+	));	
+});
 
+Route::get('/party/{partyslug}', function($partyslug)
+{
+	$party 		=   Party::where('name', '=', $partyslug)->firstOrFail();
+    //$elections  =   $party->
+	return View::make('pages.party',array(
+			'party' 	=> $party,
+			'page_title'		=> 'Party details'			
+	));	
+});
 
 Route::get('/bodies/{body_slug}/{districts_name}/{district_slug}', function($body_slug,$districts_name,$district_slug)
 {
@@ -223,6 +240,7 @@ Route::get('/bodies/{body_slug}/elections/{d}/{districts_name}/{district}', func
         'election_held'					=>	$election_held
         
      ));
+          
 });
 
 

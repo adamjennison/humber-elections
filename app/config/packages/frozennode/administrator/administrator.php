@@ -51,7 +51,7 @@ return array(
 	 * 		'Analytics' => array('E-Commerce' => 'page.ecommerce.analytics'),
 	 *	)
 	 */
-	'menu' => array('parties','bodies','candidates','candidacies','elections','polls'),
+	'menu' => array('parties','bodies','candidates','candidacies','elections','polls','pollingstations'),
 
 	/**
 	 * The permission option is the highest-level authentication check that lets you define a closure that should return true if the current user
