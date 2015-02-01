@@ -2,8 +2,11 @@
 This is to be a direct port of the Ruby based elections app that Adrian Short wrote.
 https://github.com/adrianshort/Sutton-Elections
 
-You can see it in action here:
+You can see the original in action here:
 http://www.suttonelections.org.uk/
+
+You can see this Laravel version in action here:
+http://humerdata.org/elections
 
 I'm porting it across to PHP - Laravel [4]
 I'm doing this to help me understand the Laravel framework but more importantly it's a good application that helps the public find out information about polling, voting and candidates in a very easy way.
