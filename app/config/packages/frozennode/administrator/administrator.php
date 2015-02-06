@@ -1,5 +1,5 @@
 <?php
-Config::set('laravel-debugbar::config.enabled', false);
+//Config::set('laravel-debugbar::config.enabled', false);
 return array(
 
 	/**

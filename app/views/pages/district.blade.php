@@ -8,7 +8,7 @@
 
     <div class="nav">
       <p>
-        {{ HTML::link('/bodies/'. $body->slug ,'&laquo;&nbsp;'.$district->body->name) }}
+        {{ HTML::link('/body/'. $body->slug ,'&laquo;&nbsp;'.$district->body->name) }}
       </p>
     </div>
     <h1>

@@ -14,7 +14,7 @@
 
   @foreach($bodies as $body)
     <p>
-		  {{ HTML::link('/bodies/'.$body->slug , $body->name )  }}
+		  {{ HTML::link('/body/'.$body->slug , $body->name )  }}
     </p>
   @endforeach	
      

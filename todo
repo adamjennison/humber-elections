@@ -4,6 +4,12 @@
 * add links to Adrians page & source code etc
 * add a slug to the party model
 * add more fields to the candidate model to cover yournextmp.com id etc
-*
+* change the way an election page is called to cover the same election date but different body
+* DONE - refactor code to controllers to clean up the routes
+* add in the mosaic data from ONS for district along with contained district data - how to present it?
+* add in per body content (held in the model?) - migration
+* add a 'search' facility for candidates
+* paginate candidates?
+
 
 

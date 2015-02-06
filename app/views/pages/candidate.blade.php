@@ -96,11 +96,19 @@
 
 <div class="warning">
   <p>
-    This might not be the complete electoral history for this candidate. They might have stood in elections outside Sutton and / or in Sutton elections for which we don't have data.
+    This might not be the complete electoral history for this candidate. They might have stood in elections outside the region or in elections that we have no information about.
   </p>
   <p >
-    Some candidates have more than one profile page due to them using slightly different names in different elections. See the full {{ HTML::link('candidates#'.$candidate->surname[0] , 'candidates list' )   }}  for details. 
+    Some candidates have more than one profile page due to them using slightly different names in different elections or having changed their name. See the full {{ HTML::link('candidates#'.$candidate->surname[0] , 'candidates list' )   }}  for details. 
   </p>
+  <p>
+      You can always search Google for this {{ HTML::link('http://google.co.uk/search?q='.$candidate->fullName,'candidate') }} 
+  </p>
+    @if($yournextmp['total']>0)
+  <p>
+      According to YourNextMp.com {{ $candidate->fullname }} is standing or has stood {{ dd($yournextmp) }}
+  </p>
+   @endif
 </div>
 
 

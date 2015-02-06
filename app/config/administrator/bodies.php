@@ -55,6 +55,24 @@ return array(
 		'district_name',
         'districts_name',
         'slug',
+        'narrative' => array(
+            'type' => 'textarea',
+            'title' => 'Name',
+            'limit' => 300, //optional, defaults to no limit
+            'height' => 130, //optional, defaults to 100
+        ),
+        'url' => array(
+            'type' => 'text', //optional, default is 'text'
+            'title' => 'URL please inc http://',            
+        ),
+        'contact_email' => array(
+            'type' => 'text', //optional, default is 'text'
+            'title' => 'Email address for election related contact',            
+        ),
+        'contact_phone' => array(
+            'type' => 'text', //optional, default is 'text'
+            'title' => 'Phone number inc STD code',            
+        ),
 	),
 
 );

@@ -51,11 +51,16 @@ class CandidatesController extends \BaseController {
 
 		$candidacies = $candidate->getAllDetails();
 		
-		
+		$json = json_decode(file_get_contents('http://yournextmp.popit.mysociety.org/api/v0.1/search/persons?q=name:%22'.urlencode($candidate->fullName).'%22'), true);
+		//dd('http://yournextmp.popit.mysociety.org/api/v0.1/search/persons?q=name:%22'.$candidate->fullName.'%22');
+        //dd($json);
+        
+        	//$candidate->gender 		=	$json['gender'];
 		return View::make('pages.candidate', array(
 				'candidate'		=>	$candidate,
 				'page_title' 	=> 	$candidate->forenames.' '.$candidate->surname,
-				'candidacies'	=>	$candidacies
+				'candidacies'	=>	$candidacies,
+                'yournextmp'    =>  $json
 			));
 	}
 
