@@ -46,6 +46,8 @@ class PartyController extends \BaseController {
 		
         $party 		=   Party::where('name', '=', $partyslug)->firstOrFail();
         //$elections  =   $party->
+        $candidacies = $party->candidacies;
+
         return View::make('pages.party',array(
                 'party' 	=> $party,
                 'page_title'		=> 'Party details'			

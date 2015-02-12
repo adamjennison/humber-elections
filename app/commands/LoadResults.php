@@ -108,7 +108,7 @@ class LoadResults extends Command {
 
 			$this->line('Searching for a district'.$row['district']);
 
-			$district	= 	District::where('name','=',$row['district'])->firstOrFail();
+			$district	= 	District::where('name','=',ltrim($row['district']))->firstOrFail();
             
             //dd($this->argument('election'));
 			$election 	=	Election::where('d','=',$this->argument('election'))->firstOrFail();

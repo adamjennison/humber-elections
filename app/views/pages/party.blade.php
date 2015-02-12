@@ -21,7 +21,7 @@
   @foreach($party->candidacies as $candidacy)
     <tr>
       <td>
-          {{ HTML::link('/candidates/'.$candidacy->candidate->id, $candidacy->candidate->short_name() ) }} 
+          {{ HTML::link('/candidates/'.$candidacy->candidate->id, $candidacy->candidate->FormatedName ) }} 
       </td>
       <td>
           {{ HTML::link('/bodies/'.$candidacy->district->body->slug.'/'.

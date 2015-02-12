@@ -67,6 +67,10 @@ class Candidate extends Eloquent {
         
         
     }
+    
+    public function getFormatedNameAttribute(){
+            return $this->surname.', '.$this->forenames;
+    }
 
     public function short_name(){
 
