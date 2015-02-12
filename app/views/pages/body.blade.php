@@ -12,8 +12,8 @@
     </div>
     <div>More information can be found on their {{ HTML::link($body->url,'website') }}</div>
     <div>&nbsp;</div>
-    <div>Phone: {{ $body->phone_contact  }}</div>
-    <div>Email: {{ $body->email_contact  }}</div>
+    <div>Phone: {{ $body->contact_phone  }}</div>
+    <div>Email: {{ HTML::link('mailto://'.$body->contact_email,$body->contact_email)  }}</div>
     <h2>Elections</h2>
 <table>
   @foreach($elections as $election)
