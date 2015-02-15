@@ -104,9 +104,12 @@
   <p>
       You can always search Google for this {{ HTML::link('http://google.co.uk/search?q='.$candidate->fullName,'candidate') }} 
   </p>
-    @if($yournextmp['total']>0)
+    @if(!is_null($yournextmp))
   <p>
-      According to YourNextMp.com {{ $candidate->fullname }} is standing or has stood {{ dd($yournextmp) }}
+      According to {{ HTML::link('https://yournextmp.com/person/'.$candidate->ynmp_id,'YourNextMp.com') }} {{ $candidate->fullname }} is standing or has stood as an MP.
+      @if(array_key_exists('image',$yournextmp['result'][0]))
+        <img class="candidate" src="{{ $yournextmp['result'][0]['image'] }}" border="2" alt="{{$page_title}}" title="{{$page_title}}">
+      @endif
   </p>
    @endif
 </div>

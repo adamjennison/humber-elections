@@ -18,7 +18,7 @@
         <th>Position</th>
         <th>&nbsp;</th>
     </tr>
-  @foreach($party->candidacies as $candidacy)
+  @foreach($candidacies as $candidacy)
     <tr>
       <td>
           {{ HTML::link('/candidates/'.$candidacy->candidate->id, $candidacy->candidate->FormatedName ) }} 
@@ -32,6 +32,7 @@
       <td>
           {{ HTML::link('/bodies/'.$candidacy->district->body->slug.'/elections/'.$candidacy->election->d ,
                date('d M Y', strtotime($candidacy->election->d))) }}
+               {{$candidacy->district->body->name }}
       </td>
         <td class="right"> 
             {{ $candidacy->votes }}
@@ -52,6 +53,7 @@
   @endforeach	
 </table>      
 
+<?php echo $candidacies->links(); ?>
 
 @stop
  

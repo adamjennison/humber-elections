@@ -50,8 +50,15 @@ class CandidatesController extends \BaseController {
 		$candidate = Candidate::find($id);
 
 		$candidacies = $candidate->getAllDetails();
+		if($candidate->ynmp_id>0){    
+            $json = json_decode(file_get_contents('http://yournextmp.popit.mysociety.org/api/v0.1/search/persons?q=id:'.$candidate->ynmp_id), true);
+        }else{
+            // try to pick up any details we can about the candidate..
+            //$json = json_decode(file_get_contents('http://yournextmp.popit.mysociety.org/api/v0.1/search/persons?q=name:%22'.urlencode($candidate->fullName).'%22'), true);
+            $json=null;
+        }
 		
-		$json = json_decode(file_get_contents('http://yournextmp.popit.mysociety.org/api/v0.1/search/persons?q=name:%22'.urlencode($candidate->fullName).'%22'), true);
+        
 		//dd('http://yournextmp.popit.mysociety.org/api/v0.1/search/persons?q=name:%22'.$candidate->fullName.'%22');
         //dd($json);
         

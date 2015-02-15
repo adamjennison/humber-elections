@@ -9,7 +9,9 @@
 * add in the mosaic data from ONS for district along with contained district data - how to present it?
 * DONE - add in per body content (held in the model?) - migration
 * add a 'search' facility for candidates
-* paginate candidates?
+* paginate candidates - not sure there's a need at the moment..
+* DONE - paginate candidacies for party page
+* order candidacies on party page by last name first
 
 
 

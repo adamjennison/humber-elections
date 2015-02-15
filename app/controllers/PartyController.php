@@ -46,11 +46,14 @@ class PartyController extends \BaseController {
 		
         $party 		=   Party::where('name', '=', $partyslug)->firstOrFail();
         //$elections  =   $party->
-        $candidacies = $party->candidacies;
+        //$candidacies = $party->candidacies->paginate(30);
+        $candidacies = Candidacy::where('party_id','=',$party->id)->orderBy('position','ASC')->orderBy('district_id')->paginate(30);
+        
 
         return View::make('pages.party',array(
                 'party' 	=> $party,
-                'page_title'		=> 'Party details'			
+                'page_title'		=> 'Party details'	,
+                'candidacies'   =>  $candidacies		
         ));	
 
 	}
