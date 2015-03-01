@@ -111,7 +111,7 @@ class LoadResults extends Command {
 			$district	= 	District::where('name','=',ltrim($row['district']))->firstOrFail();
             
             //dd($this->argument('election'));
-			$election 	=	Election::where('d','=',$this->argument('election'))->firstOrFail();
+			$election 	=	Election::where('id','=',$this->argument('election'))->firstOrFail();
 
 			$candidacy 	= 	Candidacy::firstOrCreate(array(
 					'election_id'	=>	$election->id,
@@ -140,7 +140,7 @@ class LoadResults extends Command {
 	{
 		return array(
 			array('filename', InputArgument::REQUIRED, 'Filename of the csv'),
-			array('election', InputArgument::REQUIRED, 'Election date (yyyy-mm-dd)'),
+			array('election', InputArgument::REQUIRED, 'Election id'),
 		);
 	}
 

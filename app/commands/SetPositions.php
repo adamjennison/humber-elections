@@ -48,7 +48,7 @@ class SetPositions extends Command {
 		//
         
         $this->line('Welcome to the set position of the candidates command.');
-        $election 	=	Election::where('d','=',$this->argument('election'))->firstOrFail();
+        $election 	=	Election::where('id','=',$this->argument('election'))->firstOrFail();
         
         $this->line('Setting candidacy positions for '.$election->body->name.' '.$election->kind.' '.$election->d);
         if($election->candidacies->count() < $this->byelection_cutoff){
@@ -99,7 +99,7 @@ class SetPositions extends Command {
 	protected function getArguments()
 	{
 		return array(
-			array('election', InputArgument::REQUIRED, 'Election date in yyyy-mm-dd format'),
+			array('election', InputArgument::REQUIRED, 'Election id'),
 		);
 	}
 

@@ -168,7 +168,7 @@
           </td>
           <td class="right">
            {{-- <%= commify(row['total_votes'] / row['num_candidates']) %>  --}}
-           {{ $row->total_votes / $row->num_candidates }}
+           {{ sprintf("%.0f", ( floatval( $row->total_votes / $row->num_candidates))) }}
           </td>
         @else
           <td class="right">&mdash;</td>

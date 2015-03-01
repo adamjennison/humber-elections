@@ -68,7 +68,7 @@
               {{  \JennisonAdam\tools\NumberFormatter::addOrdinalNumberSuffix($candidacy->position) }}
             </td>
             <td>
-              @if (($candidacy->position)== 1)
+              @if (($candidacy->elected)== 1)
                 Elected
               @else
                 Not elected
@@ -103,16 +103,57 @@
   </p>
   <p>
       You can always search Google for this {{ HTML::link('http://google.co.uk/search?q='.$candidate->fullName,'candidate') }} 
+      
   </p>
+  </div>
     @if(!is_null($yournextmp))
-  <p>
-      According to {{ HTML::link('https://yournextmp.com/person/'.$candidate->ynmp_id,'YourNextMp.com') }} {{ $candidate->fullname }} is standing or has stood as an MP.
-      @if(array_key_exists('image',$yournextmp['result'][0]))
-        <img class="candidate" src="{{ $yournextmp['result'][0]['image'] }}" border="2" alt="{{$page_title}}" title="{{$page_title}}">
+ 
+      
+      @if(array_key_exists('2015',$yournextmp['result'][0]['standing_in']))
+      
+        According to {{ HTML::link('https://yournextmp.com/person/'.$candidate->ynmp_id,'YourNextMp.com') }} {{ $candidate->fullname }}
+         is standing as an MP in the 2015 general election for the 
+         {{ $yournextmp['result'][0]['party_memberships']['2015']['name'] }} 
+         in the {{ $yournextmp['result'][0]['standing_in']['2015']['name'] }} constituency.
+         
+         Other candidates are:<br/><br/>
+      
+      @if(!is_null($constituency))
+      <table>
+        <tbody>
+      <tr class="noborder">
+        <td>
+         <strong>Name</strong>
+        </td>
+        <td>
+         <strong>Party</strong>
+        </td>
+      </tr>
+        @foreach($constituency['result']['memberships'] as $wanabe_an_mp)
+            @if(array_key_exists('2015',$wanabe_an_mp['person_id']['standing_in']))
+                <tr>
+                    <td>
+                        {{ HTML::link('/candidates/ynmp/'.$wanabe_an_mp['person_id']['id'].'/name/'.$wanabe_an_mp['person_id']['name'], $wanabe_an_mp['person_id']['name'] )}}
+                    </td>
+                    <td>
+                        {{ $wanabe_an_mp['person_id']['party_memberships']['2015']['name'] }}
+                    </td>
+                </tr>
+            @endif
+        @endforeach
       @endif
-  </p>
+      
+      @endif
+        </tbody>
+</table>
+      @if(array_key_exists('image',$yournextmp['result'][0]))
+      
+        <img class="candidate" src="{{ $yournextmp['result'][0]['image'] }}" border="2" alt="{{$page_title}}" title="{{$page_title}}">
+      
+      @endif
+ 
    @endif
-</div>
+
 
 
 @stop

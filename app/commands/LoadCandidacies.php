@@ -89,7 +89,7 @@ class LoadCandidacies extends Command {
 
 		$this->line('Welcome to the load candidate command.');
 		$this->info('We will be loading this file: '.$this->file_path.$this->argument('filename'));
-        dd($this->file_path.$this->argument('filename'));
+       // dd($this->file_path.$this->argument('filename'));
 		if(!$this->headers){
 			$this->info('You have stated that there are no headers in this CSV');
 			$this->info('The headers are: '.$this->line($reader->getHeaders()));
@@ -117,7 +117,7 @@ class LoadCandidacies extends Command {
 
 			$district	= 	District::where('name','=',$row['district'])->firstOrFail();
 
-			$election 	=	Election::where('d','=',$this->argument('election'))->firstOrFail();
+			$election 	=	Election::where('id','=',$this->argument('election'))->firstOrFail();
 			$candidacy	=	new Candidacy();
 
 			$candidacy->election_id 	= 	$election->id;

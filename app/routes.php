@@ -21,6 +21,7 @@ Route::get('/', function()
 });
 
 
+Route::get('candidates/ynmp/{id}/name/{name}','CandidatesController@ynmp');
 
 Route::resource('candidates','CandidatesController');
 

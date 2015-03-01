@@ -48,16 +48,28 @@ class CandidatesController extends \BaseController {
 	{
 		//
 		$candidate = Candidate::find($id);
-
+        
+        $json   =   null;
+        
+        $constituency = null;
+        
 		$candidacies = $candidate->getAllDetails();
 		if($candidate->ynmp_id>0){    
             $json = json_decode(file_get_contents('http://yournextmp.popit.mysociety.org/api/v0.1/search/persons?q=id:'.$candidate->ynmp_id), true);
         }else{
-            // try to pick up any details we can about the candidate..
-            //$json = json_decode(file_get_contents('http://yournextmp.popit.mysociety.org/api/v0.1/search/persons?q=name:%22'.urlencode($candidate->fullName).'%22'), true);
-            $json=null;
+                // do nothing..
         }
 		
+        if(!is_null($json)){
+            // we have an MP so lets see if they are standing and if so grab the constituency data
+            if(array_key_exists('2015',$json['result'][0]['standing_in'])){
+                // they are standing in 2015 - now we can grab the data for the constituency
+                
+                $constituency = json_decode(file_get_contents('http://yournextmp.popit.mysociety.org/api/v0.1/posts/'.$json['result'][0]['standing_in']['2015']['post_id'].'?embed=membership.person'), true);
+                
+                
+            }
+        }
         
 		//dd('http://yournextmp.popit.mysociety.org/api/v0.1/search/persons?q=name:%22'.$candidate->fullName.'%22');
         //dd($json);
@@ -67,7 +79,8 @@ class CandidatesController extends \BaseController {
 				'candidate'		=>	$candidate,
 				'page_title' 	=> 	$candidate->forenames.' '.$candidate->surname,
 				'candidacies'	=>	$candidacies,
-                'yournextmp'    =>  $json
+                'yournextmp'    =>  $json,
+                'constituency'  =>  $constituency
 			));
 	}
 
@@ -107,5 +120,17 @@ class CandidatesController extends \BaseController {
 		//
 	}
 
+    public function ynmp($id, $name)
+    {
+        
+        $candidate 		=   Candidate::where('ynmp_id', '=', $id)->first();
+        if(is_null($candidate)){
+            //we couldn't find by a ynmp_id so lets try the name instead
+            $split_name=explode(' ',$name);
+            $candidate 		=   Candidate::where('surname', '=', end($split_name))->where('forenames','=',reset($split_name))->first();
+        }
+        
+        return $this->show($candidate->id);
+    }
 
 }
