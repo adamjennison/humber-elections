@@ -128,9 +128,24 @@ class CandidatesController extends \BaseController {
             //we couldn't find by a ynmp_id so lets try the name instead
             $split_name=explode(' ',$name);
             $candidate 		=   Candidate::where('surname', '=', end($split_name))->where('forenames','=',reset($split_name))->first();
+            	//we couldn't find one candidate so lets see if we present the some like it..
+            if(is_null($candidate)){
+            	$candidates 		=   Candidate::where('surname', '=', end($split_name))->get();
+            	if(!is_null($candidates)){
+            		//return $this->showList($candidates);
+            		return View::make('pages.candidateslist', array(
+									'candidates'		=>	$candidates,
+									'page_title' 	=>  'Choose the closest candidate',
+									));
+            	}else{
+            		// no candidates - 404 
+            	}
+            }
         }
         
         return $this->show($candidate->id);
     }
+
+
 
 }

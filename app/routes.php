@@ -44,5 +44,9 @@ Route::get('/party/{partyslug}', 'PartyController@show');
 Route::get('/bodies/{body_slug}/{districts_name}/{district_slug}', 'DistrictController@show');
 
 Route::get('/bodies/{body_slug}/elections/{d}/{districts_name}/{district}', 'DistrictController@resultsForDistrict');
-
+Route::get('/about',function(){
+	return View::make('pages.about',array(
+		'page_title' => 'About this website',
+			));
+});
 

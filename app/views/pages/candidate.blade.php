@@ -131,14 +131,19 @@
       </tr>
         @foreach($constituency['result']['memberships'] as $wanabe_an_mp)
             @if(array_key_exists('2015',$wanabe_an_mp['person_id']['standing_in']))
+            	@if(!((int)$wanabe_an_mp['person_id']['id']==(int)$candidate->ynmp_id))
                 <tr>
+                	
                     <td>
                         {{ HTML::link('/candidates/ynmp/'.$wanabe_an_mp['person_id']['id'].'/name/'.$wanabe_an_mp['person_id']['name'], $wanabe_an_mp['person_id']['name'] )}}
+                        
                     </td>
                     <td>
                         {{ $wanabe_an_mp['person_id']['party_memberships']['2015']['name'] }}
                     </td>
+                   
                 </tr>
+                @endif
             @endif
         @endforeach
       @endif
@@ -146,6 +151,7 @@
       @endif
         </tbody>
 </table>
+
       @if(array_key_exists('image',$yournextmp['result'][0]))
       
         <img class="candidate" src="{{ $yournextmp['result'][0]['image'] }}" border="2" alt="{{$page_title}}" title="{{$page_title}}">
